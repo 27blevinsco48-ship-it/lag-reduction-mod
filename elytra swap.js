@@ -41,4 +41,24 @@
             // Equip elytra if no chestplate
             player.inventory.armor[2] = player.inventory.main[elytraSlot];
             player.inventory.main[elytraSlot] = null;
-            mc.thePlayer.playSound("random.pop"
+            mc.thePlayer.playSound("random.pop", 1, 1);
+        } else if (chestStack && elytraSlot === -1) {
+            // Inventory full, refuse swap
+            mc.thePlayer.addChatMessage("§cSwap refused: No empty slot for chestplate!");
+        }
+    }
+
+    // Key listener
+    mc.gameSettings.keyBindForward.keyPressEvents.push(function(event) {
+        if (event.keyCode === HOTKEY && !isKeyDown) {
+            swapElytraChest();
+            isKeyDown = true;
+        }
+    });
+
+    window.addEventListener("keyup", function(e) {
+        if (e.keyCode === HOTKEY) isKeyDown = false;
+    });
+
+    console.log("Hotkey swap mod loaded: Press 'O' to swap chestplate and elytra.");
+})();
